@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>prakM</title>
+    <style>
+      :root {
+        --bg-color: #f7f7f7;
+        --text-color: #333;
+        --link-color: black;
+        --link-hover-color: #1da1f2;
+        --selected-link-color: #1da1f2;
+        --button-bg-color: #1da1f2;
+        --button-text-color: white;
+        --avatar-border-color: #ddd;
+      }
+      body.dark-theme {
+        --bg-color: #111111;
+        --text-color: #e0e0e0;
+        --link-color: #c9c9c9;
+        --link-hover-color: #1da1f2;
+        --selected-link-color: #1da1f2;
+        --button-bg-color: #1da1f2;
+        --button-text-color: white;
+        --avatar-border-color: #555;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: sans-serif;
+        transition: background-color 0.3s, color 0.3s;
+      }
+      .container {
+        text-align: center;
+        position: relative;
+        width: 500px;
+        height: 500px;
+        display: flex;
+        flex-direction: column;
+      }
+      img.avatar {
+        width: 220px;
+        border-radius: 50%;
+        display: block;
+        margin: 0 auto 40px;
+        border: 3px solid var(--avatar-border-color);
+        transition: border-color 0.3s;
+      }
+      .link-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1 1 0;
+        position: relative;
+        height: 100%;
+      }
+      .social-row {
+        display: flex;
+        gap: 24px;
+        justify-content: center;
+        margin-bottom: 32px;
+        width: 100%;
+      }
+      .social-row .twitter {
+        margin: 0;
+        flex: 1 1 0;
+        text-align: center;
+        min-width: 0;
+      }
+      .twitter {
+        font-weight: bold;
+        text-decoration: none;
+        color: var(--link-color);
+        font-size: 1.5rem;
+        margin: 10px 0;
+        display: block;
+        transition: color 0.3s;
+      }
+      .twitter:hover,
+      .twitter.selected {
+        color: var(--selected-link-color);
+        text-decoration: underline;
+        background: #e0e0e0;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px #ffffff33;
+        transform: scale(1.05);
+      }
+      .oce-cheaters {
+        margin-top: auto;
+        width: 100%;
+        text-align: center;
+      }
+      .oce-cheaters.selected,
+      .oce-cheaters:hover,
+      .oce-cheaters:focus,
+      .oce-cheaters.selected *,
+      .oce-cheaters:hover *,
+      .oce-cheaters:focus * {
+        color: red !important;
+        text-decoration: line-through !important;
+      }
+      .hand {
+        position: absolute;
+        width: 32px;
+        transition: top 0.2s, left 0.2s;
+      }
+      #theme-toggle-btn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: none;
+        border: none;
+        font-size: 2rem;
+        cursor: pointer;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        color: var(--text-color);
+        transition: color 0.3s;
+      }
+      #theme-toggle-btn:focus {
+        outline: 2px solid var(--selected-link-color);
+      }
+      @keyframes hand-wiggle {
+        0% {
+          transform: translateX(0);
+        }
+        15% {
+          transform: translateX(-8px);
+        }
+        35% {
+          transform: translateX(8px);
+        }
+        50% {
+          transform: translateX(-6px);
+        }
+        65% {
+          transform: translateX(6px);
+        }
+        80% {
+          transform: translateX(-4px);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+      .hand.animate {
+        animation: hand-wiggle 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      }
+      #theme-gradient-fade {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1; /* Put behind everything */
+        opacity: 0;
+        transition: opacity 1.5s;
+        background: linear-gradient(
+          to left,
+          rgba(255, 255, 255, 0.8) 0%,
+          rgba(255, 255, 255, 0) 70%
+        );
+      }
+      body.dark-theme #theme-gradient-fade {
+        background: linear-gradient(
+          to left,
+          rgba(30, 30, 40, 0.8) 0%,
+          rgba(30, 30, 40, 0) 70%
+        );
+      }
+    </style>
+  </head>
+  <body>
+    <div id="theme-gradient-fade"></div>
+    <div class="container">
+      <img
+        id="avatar-img"
+        class="avatar"
+        src="Images/claytiger.png"
+        alt="Avatar"
+      />
+      <div class="link-container">
+        <img id="hand" class="hand" src="Images/hand.png" alt="Selector Hand" />
+        <div class="social-row">
+          <a
+            class="twitter selectable"
+            href="https://x.com/prakM96"
+            target="_blank"
+            tabindex="0"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              style="vertical-align: middle; margin-right: 8px"
+            >
+              <path
+                fill="#1da1f2"
+                d="M22.46 5.924c-.793.352-1.646.59-2.542.698a4.48 4.48 0 0 0 1.963-2.475 8.94 8.94 0 0 1-2.828 1.082A4.48 4.48 0 0 0 11.07 9.03a12.72 12.72 0 0 1-9.23-4.68 4.48 4.48 0 0 0 1.39 5.98A4.44 4.44 0 0 1 2 9.13v.056a4.48 4.48 0 0 0 3.6 4.39 4.48 4.48 0 0 1-2.02.077 4.48 4.48 0 0 0 4.18 3.11A8.98 8.98 0 0 1 2 19.54a12.7 12.7 0 0 0 6.88 2.02c8.26 0 12.78-6.84 12.78-12.78 0-.195-.004-.39-.013-.583A9.18 9.18 0 0 0 24 4.59a8.93 8.93 0 0 1-2.54.697z"
+              />
+            </svg>
+            @prakM96
+          </a>
+          <a
+            class="twitter selectable"
+            href="https://www.twitch.tv/prakmtv"
+            target="_blank"
+            tabindex="0"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              style="vertical-align: middle; margin-right: 8px"
+            >
+              <path
+                fill="#9147ff"
+                d="M2 0L0 4v18h6v2h4l2-2h4l6-6V0H2zm18 14l-2 2h-4l-2 2H6V2h14v12z"
+              />
+              <rect fill="#fff" x="15" y="6" width="2" height="5" />
+              <rect fill="#fff" x="11" y="6" width="2" height="5" />
+            </svg>
+            prakMtv
+          </a>
+        </div>
+        <a class="twitter selectable oce-cheaters" href="#" tabindex="-1">
+          <span style="font-size: 0.9rem">
+            🚧🛑❌ OCE Cheaters Live Updates (Not Working) 🚧🛑
+          </span>
+          <div style="font-size: 1rem; color: gray; margin-top: 4px">
+            Coming soon!
+          </div>
+        </a>
+      </div>
+    </div>
+    <button id="theme-toggle-btn" title="Toggle light/dark mode">🌞</button>
+    <script src="script.js"></script>
+  </body>
+</html>
